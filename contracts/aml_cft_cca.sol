@@ -41,11 +41,16 @@ contract AML_CFT_CCA is Ownable {
 
     event UserVerified(address indexed user);
     event TransactionRecorded(address indexed from, address indexed to, uint256 amount, bool isSuspicious);
-    event CheckBalance(string text, uint amount);
+    event CheckBalance(uint amount);
 
     constructor(address _token) {
         token = _token;
         owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == issuer, "Only owner can call this function");
+        _;
     }
 
     // Verify user identity for AML/CFT compliance
